@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:country_icons/country_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:badges/badges.dart';
 
 class BookCircles extends StatefulWidget {
   BookCircles({Key? key}) : super(key: key);
@@ -183,7 +184,7 @@ seven-figure entrepreneur """,
                             style:
                                 TextStyle(fontSize: 10, color: Colors.white)),
                         SizedBox(width: 10),
-                        Icon(Icons.wifi, color: Colors.white, size: 13),
+                        Icon(Icons.hearing, color: Colors.white, size: 13),
                         Text("240",
                             style: TextStyle(fontSize: 10, color: Colors.white))
                       ])),
@@ -202,7 +203,17 @@ seven-figure entrepreneur """,
                         top: 5,
                       ),
                       child: Row(children: <Widget>[
-                        Icon(Icons.message, color: Colors.white, size: 20),
+                        Badge(
+      position: BadgePosition.topEnd(top: 0, end: 3),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+       "3",
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
+    ),
+
                         SizedBox(width: 5),
                         Column(children: [
                           Icon(Icons.person, color: Colors.white, size: 20),
@@ -343,7 +354,7 @@ seven-figure entrepreneur """,
                             style:
                                 TextStyle(fontSize: 10, color: Colors.white)),
                         SizedBox(width: 10),
-                        Icon(Icons.wifi, color: Colors.white, size: 13),
+                        Icon(Icons.hearing, color: Colors.white, size: 13),
                         Text("240",
                             style: TextStyle(fontSize: 10, color: Colors.white))
                       ])),
@@ -362,7 +373,16 @@ seven-figure entrepreneur """,
                         top: 5,
                       ),
                       child: Row(children: <Widget>[
-                        Icon(Icons.message, color: Colors.white, size: 20),
+                                   Badge(
+      position: BadgePosition.topEnd(top: 0, end: 3),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+       "2",
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
+    ),
                         SizedBox(width: 5),
                         Column(children: [
                           Icon(Icons.person, color: Colors.white, size: 20),
@@ -421,21 +441,16 @@ seven-figure entrepreneur """,
           SizedBox(width: 15),
           Expanded(
             flex: 3,
-            child:   Stack(
-                  children: <Widget>[
-                     Container(
-                width: width * 0.18,
-                height: height * 0.13,
-                color: Color.fromARGB(255, 8, 52, 93),
-                     ),
-                    Positioned(
-         left: 42,
-         bottom: 33,
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        height: height * 0.1,
-                        width: width * 0.1,
-                        child: CircleAvatar(
+            child:               Badge(
+              badgeColor: Colors.white.withOpacity(0),
+      position: BadgePosition.topEnd(top: -15, end: -10),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      borderRadius:BorderRadius.zero,
+      badgeContent:
+
+
+                          CircleAvatar(
     backgroundColor: Colors.transparent,
     child: SizedBox(
       width: 30,
@@ -448,10 +463,15 @@ seven-figure entrepreneur """,
 
 
                         ),
-                      )
-                    )
-                  ]
-                    )),
+
+      child: Container(
+                width: width * 0.18,
+                height: height * 0.13,
+                color: Color.fromARGB(255, 8, 52, 93),
+                     ),
+    ),
+
+          ),
           Expanded(
             flex: 8,
             child: Container(
@@ -499,7 +519,7 @@ seven-figure entrepreneur """,
                             style:
                                 TextStyle(fontSize: 10, color: Colors.white)),
                         SizedBox(width: 10),
-                        Icon(Icons.wifi, color: Colors.white, size: 13),
+                        Icon(Icons.hearing, color: Colors.white, size: 13),
                         Text("240",
                             style: TextStyle(fontSize: 10, color: Colors.white))
                       ])),
@@ -518,7 +538,16 @@ seven-figure entrepreneur """,
                         top: 5,
                       ),
                       child: Row(children: <Widget>[
-                        Icon(Icons.message, color: Colors.white, size: 20),
+                                   Badge(
+      position: BadgePosition.topEnd(top: 0, end: 3),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+       "5",
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
+    ),
                         SizedBox(width: 5),
                         Column(children: [
                           Icon(Icons.person, color: Colors.white, size: 20),
