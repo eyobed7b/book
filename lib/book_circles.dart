@@ -3,6 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:country_icons/country_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:badges/badges.dart';
+import 'package:expandable/expandable.dart';
+
+import 'Items/live_books_widget.dart';
+import 'Items/my_scheduled_book_circle.dart';
+import 'Items/other_scheduled_book_circle.dart';
+import 'live_book_circle_chat.dart';
 
 class BookCircles extends StatefulWidget {
   BookCircles({Key? key}) : super(key: key);
@@ -14,18 +20,30 @@ class BookCircles extends StatefulWidget {
 class _BookCirclesState extends State<BookCircles> {
   late double width;
   late double height;
+    bool filter = false;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {
+            
+            setState(() {
+              filter =! filter;
+            });
+          }, icon:Icon(Icons.filter_5_rounded))
+        ],
+      ),
+      body: Container(
         child: ListView(children: <Widget>[
       Container(
         padding: EdgeInsets.only(left: 5, top: 10),
         child: Text(
           "Search by: Author ,Title or ISBN",
           style: TextStyle(
-              color: Color.fromARGB(255, 159, 157, 157),
+              color: Color.fromARGB(255, 214, 208, 208),
               fontSize: 16.0,
               fontWeight: FontWeight.w500),
         ),
@@ -51,42 +69,311 @@ class _BookCirclesState extends State<BookCircles> {
           suffixMode: OverlayVisibilityMode.notEditing,
         ),
       ),
-      buildLiveBookCirclesMain(),
-      buildMyScheduledBookCirclesMain(),
-      buildOtherScheduledBookCirclesMain()
+   Stack(
+     children: [
+     
+        buildBookCircles(),
+         filter? buildFilter():Container(),
+    
+     ],
+   )
 
       //  Container(
       //    padding: EdgeInsets.only( left: 5 ),
       //    child:Text("Live boook circles")
       //  ),
-    ]));
+    ]))
+    );
+    
+    
+    
+    
   }
+  buildBookCircles()
+{
+  return  Stack(
+  children: [
+    ListView(
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+    children: [
+      buildLiveBookCircleExpandable(),
+      buildMyScheduledBookCircleseExpandable(),
+      buildOtherScheduledBookCirclesExpandable()
+    
+    ],
+  ),
+  filter?GestureDetector(
+     onTap: () => setState(() {
+      filter = false;
+    }),
+    child: Container(
+    width:width,
+    height: height,
+    color: Colors.black.withOpacity(0.5),
+    
+  ),
+  ):Container()
+  ],
 
-  buildLiveBookCirclesMain() {
-    return Container(
-      padding: EdgeInsets.only(left: 5, top: 10),
-      child: Card(
-        color: Colors.green,
-        child: ExpansionTile(
-          iconColor: Colors.white,
-          collapsedIconColor: Color.fromARGB(255, 203, 217, 204),
+  );
+   }
+   buildFilter()
+   {
+     return Container(
+       height: height*0.3,
+       color: Color.fromARGB(255, 216, 211, 211),
+       child: Row(children: [
+        Expanded(
+          flex: 5,
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+           children: [
 
-          title: ListTile(
-            tileColor: Colors.green,
-            title: Text(
-              "Live book circles",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 232, 244, 232),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          children: <Widget>[
+   GestureDetector(
+     child:    Container(
+       padding: EdgeInsets.only(top: 10, left: 10),
+       child:  Row(
+         children: [
+            CircleAvatar(backgroundColor: Colors.green,),
+            Container(
+              color: Color.fromARGB(255, 166, 164, 164),
+              height: height*0.03,
+              width: width*0.35,
+              child: Center(child: Text("Live circles now",style: TextStyle(color: Colors.white, fontSize: 12),),),
+            )
+         ],
+       ),
+     )
+   ),
+   GestureDetector(
+     child:    Container(
+       padding: EdgeInsets.only(top: 10,left: 10),
+       child:  Row(
+         children: [
+            CircleAvatar(backgroundColor: Color.fromARGB(255, 232, 170, 12),),
+            Container(
+              color: Color.fromARGB(255, 166, 164, 164),
+             height: height*0.03,
+              width: width*0.35,
+              child: Center(child: Text("Your scheduled circles",style: TextStyle(color: Colors.white,  fontSize: 12),),),
+            )
+         ],
+       ),
+     )
+   ),
+   GestureDetector(
+     child:    Container(
+       padding: EdgeInsets.only(top: 10,left: 10),
+       child:  Row(
+         children: [
+            CircleAvatar(radius: 17, backgroundColor: Color.fromARGB(255, 15, 84, 149),),
+            Container(
+              color: Color.fromARGB(255, 166, 164, 164),
+              height: height*0.03,
+              width: width*0.35,
+              child: Center(child: Text("Other available circles",style: TextStyle(color: Colors.white, fontSize: 12),),),
+            )
+         ],
+       ),
+     )
+   ),
+    GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        padding: EdgeInsets.only(top: 10),
+       child:Card(
+        child:  Row(
+           children: [
+             Icon(Icons.person),
+       Container(
+         padding: EdgeInsets.only(left: 3),
+         child:  Text("Participates as a speaker", style: TextStyle(fontSize: 12),),
+       )
+           ],
+       )
+     ))
+   ),
+    GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        padding: EdgeInsets.only(top: 10),
+       child:Card(
+        child:  Row(
+           children: [
+             Icon(Icons.hearing),
+          Container(
+         padding: EdgeInsets.only(left: 3),
+         child:  Text("Participates as a listener", style: TextStyle(fontSize: 12),),
+       )
+       
+           ],
+       )
+     ))
+   ),
+            //  ListTile(
+            //    leading: CircleAvatar(backgroundColor: Colors.yellow),
+            //    title: Card(
+            //      child: Text("Live circles now"),
+            //    ),
+            //  )
+           ],
+         )),
+        Expanded(
+          flex: 5,
+          child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+           children: [
+           GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        padding: EdgeInsets.only(top: 10),
+       child:Card(
+        child:  Row(
+           children: [
+             Icon(Icons.person),
+       Container(
+         padding: EdgeInsets.only(left: 3),
+         child:  Text("Participates as a speaker", style: TextStyle(fontSize: 12),),
+       )
+           ],
+       )
+     ))
+   ),
+    GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        padding: EdgeInsets.only(top: 10),
+       child:Card(
+        child:  Row(
+           children: [
+             Icon(Icons.hearing),
+          Container(
+         padding: EdgeInsets.only(left: 3),
+         child:  Text("Participates as a listener", style: TextStyle(fontSize: 12),),
+       )
+       
+           ],
+       )
+     ))
+   ),GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        height: height*0.03,
+        color: Color.fromARGB(100, 171, 168, 168),
+        margin: EdgeInsets.only(top: 10),
+      )
+   ),
+   
+      GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        height: height*0.03,
+       color: Color.fromARGB(100, 171, 168, 168),
+        margin: EdgeInsets.only(top: 10),
+      )
+   ),
+   
+    GestureDetector(
+     child:    Container(
+        width: width*0.45,
+        height: height*0.03,
+         color: Color.fromARGB(100, 171, 168, 168),
+        margin: EdgeInsets.only(top: 10),
+      )
+   ),
+   
+           ],
+         ))
+       ]),
+     );
+   }
+   buildLiveBookCircleExpandable(){
+     return Column(
+       children: [
+         Container(
+           padding: EdgeInsets.only(left: 5,top: 5),
+           alignment: Alignment.topLeft,
+           child:Text("Live Book Circles", style: TextStyle(color:Color.fromARGB(255, 214, 208, 208),),)
+         ),
+         ExpandablePanel(
+theme: const ExpandableThemeData(
+headerAlignment:
+    ExpandablePanelHeaderAlignment.center,
+//tapBodyToExpand: true,
+//tapBodyToCollapse: true,
+hasIcon: false,
+),
+header: Expandable(
+collapsed:  Column(
+       children: <Widget>[
+         Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Colors.green
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_up),
+), 
+            Container(
+                height: height * 0.15,
+                color: Color.fromARGB(255, 13, 14, 14),
+                child:
+                    Card(color: Colors.green, child: buildLiiveBookCircles( ))),
             Container(
                 height: height * 0.15,
                 color: Color.fromARGB(255, 13, 14, 14),
                 child:
                     Card(color: Colors.green, child: buildLiiveBookCircles())),
+          ],
+   ),
+
+
+ // widget header when the widget is Collapsed
+   expanded: Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Colors.green
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_down),
+), // header when the widget is Expanded
+),
+ collapsed: GestureDetector(
+   onTap: () => print("see more"),
+   child:   Container(
+   child: Center(child: Text("More", style: TextStyle(color: Colors.blue),),),
+ )
+ ),// body when the widget is Collapsed, I didnt need anything here. 
+ expanded:Container()/// body when the widget is Expanded
+ ) 
+       ],
+     );
+   }
+  buildLiveBookCirclesMain() {
+
+    return Container(
+      padding: EdgeInsets.only(left: 5, top: 10),
+      
+      child: Card(
+        
+        color: Colors.green,
+        child: ExpansionTile(
+          iconColor: Colors.white,
+          collapsedIconColor: Color.fromARGB(255, 203, 217, 204),
+  title: Container(),
+     
+          // ),
+          children: <Widget>[
+            Container(
+                height: height * 0.15,
+                color: Color.fromARGB(255, 13, 14, 14),
+                child:
+                    Card(color: Colors.green, child: buildLiiveBookCircles( ))),
             Container(
                 height: height * 0.15,
                 color: Color.fromARGB(255, 13, 14, 14),
@@ -99,324 +386,115 @@ class _BookCirclesState extends State<BookCircles> {
   }
 
   buildLiiveBookCircles() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          SizedBox(width: 15),
-          Expanded(
-            flex: 3,
-            child:        Stack(
-                  children: <Widget>[
-                     Container(
-                width: width * 0.18,
-                height: height * 0.13,
-                color:Color.fromARGB(255, 43, 104, 45),
-                     ),
-                    Positioned(
-         left: 42,
-         bottom: 33,
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        height: height * 0.1,
-                        width: width * 0.1,
-                        child: CircleAvatar(
-    backgroundColor: Colors.transparent,
-    child: SizedBox(
-      width: 30,
-      height: 30,
-      child: ClipOval(
-
-        child:Image.asset('icons/flags/png/us.png',fit: BoxFit.fill, package: 'country_icons'),
-    )
-)
-
-
-                        ),
-                      )
-                    )
-                  ]
-                    )
-          ),
-          Expanded(
-            flex: 8,
-            child: Container(
-                padding: EdgeInsets.only(top: 5, left: 15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text("Ryan Daniel Moran",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(
-                            top: 5,
-                          ),
-                          child: Text("12 MONTHS TO \§1 MILLION",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(""" How to pick a winning product,
-Build a real business and become a
-seven-figure entrepreneur """,
-                              style: TextStyle(
-                                fontSize: 12,
-                              )))
-                    ])),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                        Icon(Icons.person, color: Colors.white, size: 13),
-                        Text("7",
-                            style:
-                                TextStyle(fontSize: 10, color: Colors.white)),
-                        SizedBox(width: 10),
-                        Icon(Icons.hearing, color: Colors.white, size: 13),
-                        Text("240",
-                            style: TextStyle(fontSize: 10, color: Colors.white))
-                      ])),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Text("Session 1 of 5",
-                          style: TextStyle(fontSize: 10, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Text(" 12:00 13:00",
-                          style: TextStyle(fontSize: 12, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                        Badge(
-      position: BadgePosition.topEnd(top: 0, end: 3),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      badgeContent: Text(
-       "3",
-        style: TextStyle(color: Colors.white, fontSize: 10),
-      ),
-      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
-    ),
-
-                        SizedBox(width: 5),
-                        Column(children: [
-                          Icon(Icons.person, color: Colors.white, size: 20),
-                          Text("Admin",
-                              style:
-                                  TextStyle(fontSize: 8, color: Colors.white))
-                        ])
-                      ])),
-                ])),
-          )
-        ]);
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>LiveBookCircleChat()));
+      },
+      child:LiveBooksCircles()
+    );
   }
-
-  buildMyScheduledBookCirclesMain() {
-    return Container(
-      padding: EdgeInsets.only(left: 5, top: 10),
-      child: Card(
-        color: Color.fromARGB(255, 232, 170, 12),
-        child: ExpansionTile(
-          iconColor: Color.fromARGB(255, 0, 0, 0),
-          collapsedIconColor: Color.fromARGB(255, 35, 38, 36),
-
-          title: ListTile(
-            //  tileColor: Colors.green,
-            title: Text(
-              "My scheduled book circles",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          children: <Widget>[
-            Container(
+   buildMyScheduledBookCircleseExpandable(){
+     return Column(
+       children: [
+         Container(
+           padding: EdgeInsets.only(left: 5,top: 5),
+           alignment: Alignment.topLeft,
+           child:Text("My Scheduled Book Circles", style: TextStyle(color:Color.fromARGB(255, 214, 208, 208),),)
+         ),
+         ExpandablePanel(
+theme: const ExpandableThemeData(
+headerAlignment:
+    ExpandablePanelHeaderAlignment.center,
+//tapBodyToExpand: true,
+//tapBodyToCollapse: true,
+hasIcon: false,
+),
+header: Expandable(
+collapsed:  Column(
+       children: <Widget>[
+         Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Color.fromARGB(255, 232, 170, 12),
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_up),
+), 
+               Container(
                 height: height * 0.15,
                 color: Colors.black,
                 child: Card(
                     color: Color.fromARGB(255, 232, 170, 12),
-                    child: buildMyScheduledBookCircles())),
+                    child: buildMyScheduledBookCircles(true))),
             Container(
                 height: height * 0.15,
                 color: Color.fromARGB(255, 13, 14, 14),
                 child: Card(
                     color: Color.fromARGB(255, 232, 170, 12),
-                    child: buildMyScheduledBookCircles())),
+                    child: buildMyScheduledBookCircles(false))),
           ],
-        ),
-      ),
-    );
+   ),
+
+
+ // widget header when the widget is Collapsed
+   expanded: Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Color.fromARGB(255, 232, 170, 12),
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_down),
+), // header when the widget is Expanded
+),
+ collapsed: GestureDetector(
+   onTap: () => print("see more"),
+   child:   Container(
+   child: Center(child: Text("More", style: TextStyle(color: Colors.blue),),),
+ )
+ ),// body when the widget is Collapsed, I didnt need anything here. 
+ expanded:Container()/// body when the widget is Expanded
+ ) 
+       ],
+     );
+   }
+
+   
+
+  buildMyScheduledBookCircles(button) {
+    return  MyScheduledBookCircle(button);
   }
 
-  buildMyScheduledBookCircles() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          SizedBox(width: 10),
-          Expanded(
-            flex: 3,
-            child:
-                  Stack(
-                  children: <Widget>[
-                     Container(
-                width: width * 0.18,
-                height: height * 0.13,
-                color: Color.fromARGB(255, 110, 97, 19),
-                     ),
-                    Positioned(
-         left: 42,
-         bottom: 33,
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        height: height * 0.1,
-                        width: width * 0.1,
-                        child: CircleAvatar(
-    backgroundColor: Colors.transparent,
-    child: SizedBox(
-      width: 30,
-      height: 30,
-      child: ClipOval(
-
-        child:Image.asset('icons/flags/png/se.png',fit: BoxFit.fill, package: 'country_icons'),
-    )
-)
-
-
-                        ),
-                      )
-                    )
-                  ]
-                    )
-
-                ),
-
-          Expanded(
-            flex: 8,
-            child: Container(
-                padding: EdgeInsets.only(top: 5, left: 10),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text("Ryan Daniel Moran",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(
-                            top: 5,
-                          ),
-                          child: Text("12 MONTHS TO \§1 MILLION",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(""" How to pick a winning product,
-Build a real business and become a
-seven-figure entrepreneur """,
-                              style: TextStyle(
-                                fontSize: 12,
-                              )))
-                    ])),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                        Icon(Icons.person, color: Colors.white, size: 13),
-                        Text("7",
-                            style:
-                                TextStyle(fontSize: 10, color: Colors.white)),
-                        SizedBox(width: 10),
-                        Icon(Icons.hearing, color: Colors.white, size: 13),
-                        Text("240",
-                            style: TextStyle(fontSize: 10, color: Colors.white))
-                      ])),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Text("Session 1 of 5",
-                          style: TextStyle(fontSize: 10, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Text(" 12:00 13:00",
-                          style: TextStyle(fontSize: 12, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                                   Badge(
-      position: BadgePosition.topEnd(top: 0, end: 3),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      badgeContent: Text(
-       "2",
-        style: TextStyle(color: Colors.white, fontSize: 10),
-      ),
-      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
-    ),
-                        SizedBox(width: 5),
-                        Column(children: [
-                          Icon(Icons.person, color: Colors.white, size: 20),
-                          Text("Admin",
-                              style:
-                                  TextStyle(fontSize: 8, color: Colors.white))
-                        ])
-                      ])),
-                ])),
-          )
-        ]);
-  }
-
-  buildOtherScheduledBookCirclesMain() {
-    return Container(
-      padding: EdgeInsets.only(left: 5, top: 10),
-      child: Card(
-        color: Color.fromARGB(255, 15, 84, 149),
-        child: ExpansionTile(
-          iconColor: Color.fromARGB(255, 255, 253, 253),
-          collapsedIconColor: Color.fromARGB(255, 239, 244, 241),
-         // backgroundColor: Color.fromARGB(255, 250, 252, 250),
-          title: ListTile(
-            //  tileColor: Colors.green,
-            title: Text(
-              "Other scheduled book circles ",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          children: <Widget>[
-            Container(
+     buildOtherScheduledBookCirclesExpandable(){
+     return Column(
+       children: [
+         Container(
+           padding: EdgeInsets.only(left: 5,top: 5),
+           alignment: Alignment.topLeft,
+           child:Text("Other scheduled book circles", style: TextStyle(color:Color.fromARGB(255, 214, 208, 208),),)
+         ),
+         ExpandablePanel(
+theme: const ExpandableThemeData(
+headerAlignment:
+    ExpandablePanelHeaderAlignment.center,
+//tapBodyToExpand: true,
+//tapBodyToCollapse: true,
+hasIcon: false,
+),
+header: Expandable(
+collapsed:  Column(
+       children: <Widget>[
+         Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Color.fromARGB(255, 15, 84, 149),
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_up),
+), 
+           Container(
                 height: height * 0.15,
                 color: Colors.black,
                 child: Card(
@@ -429,135 +507,34 @@ seven-figure entrepreneur """,
                     color: Color.fromARGB(255, 15, 84, 149),
                     child: buildOtherScheduledBookCircles())),
           ],
-        ),
-      ),
-    );
-  }
+   ),
+
+
+ // widget header when the widget is Collapsed
+   expanded: Container(
+  alignment: Alignment.topRight,
+  decoration: BoxDecoration(
+    color:Color.fromARGB(255, 15, 84, 149),
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+  child:Icon(Icons.keyboard_arrow_down),
+), // header when the widget is Expanded
+),
+ collapsed: GestureDetector(
+   onTap: () => print("see more"),
+   child:   Container(
+   child: Center(child: Text("More", style: TextStyle(color: Colors.blue),),),
+ )
+ ),// body when the widget is Collapsed, I didnt need anything here. 
+ expanded:Container()/// body when the widget is Expanded
+ ) 
+       ],
+     );
+   }
+
+   
 
   buildOtherScheduledBookCircles() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          SizedBox(width: 15),
-          Expanded(
-            flex: 3,
-            child:               Badge(
-              badgeColor: Colors.white.withOpacity(0),
-      position: BadgePosition.topEnd(top: -15, end: -10),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      borderRadius:BorderRadius.zero,
-      badgeContent:
-
-
-                          CircleAvatar(
-    backgroundColor: Colors.transparent,
-    child: SizedBox(
-      width: 30,
-      height: 30,
-      child: ClipOval(
-
-        child:Image.asset('icons/flags/png/us.png',fit: BoxFit.fill, package: 'country_icons'),
-    )
-)
-
-
-                        ),
-
-      child: Container(
-                width: width * 0.18,
-                height: height * 0.13,
-                color: Color.fromARGB(255, 8, 52, 93),
-                     ),
-    ),
-
-          ),
-          Expanded(
-            flex: 8,
-            child: Container(
-                padding: EdgeInsets.only(top: 5, left: 15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text("Ryan Daniel Moran",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(
-                            top: 5,
-                          ),
-                          child: Text("12 MONTHS TO \§1 MILLION",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ))),
-                      Container(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(""" How to pick a winning product,
-Build a real business and become a
-seven-figure entrepreneur """,
-                              style: TextStyle(
-                                fontSize: 12,
-                              )))
-                    ])),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                        Icon(Icons.person, color: Colors.white, size: 13),
-                        Text("7",
-                            style:
-                                TextStyle(fontSize: 10, color: Colors.white)),
-                        SizedBox(width: 10),
-                        Icon(Icons.hearing, color: Colors.white, size: 13),
-                        Text("240",
-                            style: TextStyle(fontSize: 10, color: Colors.white))
-                      ])),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Text("Session 1 of 5",
-                          style: TextStyle(fontSize: 10, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Text(" 12:00 13:00",
-                          style: TextStyle(fontSize: 12, color: Colors.white))),
-                  Container(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                      ),
-                      child: Row(children: <Widget>[
-                                   Badge(
-      position: BadgePosition.topEnd(top: 0, end: 3),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      badgeContent: Text(
-       "5",
-        style: TextStyle(color: Colors.white, fontSize: 10),
-      ),
-      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 20), onPressed: () {}),
-    ),
-                        SizedBox(width: 5),
-                        Column(children: [
-                          Icon(Icons.person, color: Colors.white, size: 20),
-                          Text("Admin",
-                              style:
-                                  TextStyle(fontSize: 8, color: Colors.white))
-                        ])
-                      ])),
-                ])),
-          )
-        ]);
-  }
+    return  OtherScheduledBookCircle();  }
 }
