@@ -229,14 +229,27 @@ class _BookCirclesState extends State<BookCircles> {
            GestureDetector(
      child:    Container(
         width: width*0.45,
+        height: height*0.05,
         padding: EdgeInsets.only(top: 10),
        child:Card(
         child:  Row(
            children: [
-             Icon(Icons.person),
+           CircleAvatar(
+    backgroundColor: Colors.transparent,
+    child: SizedBox(
+      width: 18,
+      height: 18,
+      child: ClipOval(
+
+        child:SvgPicture.asset('icons/flags/svg/se.svg',fit: BoxFit.fill, package: 'country_icons'),
+    )
+)
+
+
+                        ),
        Container(
          padding: EdgeInsets.only(left: 3),
-         child:  Text("Participates as a speaker", style: TextStyle(fontSize: 12),),
+         child:  Text("Language", style: TextStyle(fontSize: 12),),
        )
            ],
        )
@@ -249,10 +262,10 @@ class _BookCirclesState extends State<BookCircles> {
        child:Card(
         child:  Row(
            children: [
-             Icon(Icons.hearing),
+             Icon(Icons.person),
           Container(
          padding: EdgeInsets.only(left: 3),
-         child:  Text("Participates as a listener", style: TextStyle(fontSize: 12),),
+         child:  Text("Boook circle admin", style: TextStyle(fontSize: 12),),
        )
        
            ],
