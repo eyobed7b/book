@@ -16,6 +16,7 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
    late double width;
   late double height;
     bool filter = false;
+    bool message = false;
 
     List<Map<String, dynamic>> admin =[
       {
@@ -39,13 +40,13 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
       "status":"online","language":"se"
     },
       {
-      "name":"Aicha Mohammed",
-      "role":"admin",
+      "name":"Eyobed",
+      "role":"co-admin",
       "status":"online","language":"se"
     },
       {
-      "name":"Monir Asqari",
-      "role":"admin",
+      "name":"Abdu  ",
+      "role":"co-admin",
       "status":"online","language":"se"
     },
       {
@@ -57,12 +58,12 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
     ];
     List<Map<String, dynamic>> users =[
       {
-      "name":"Monir Asqari",
+      "name":"Natan",
       "role":"admin",
       "status":"online","language":"se"
     },
       {
-      "name":"Fredrik Sven",
+      "name":"Hiwot",
       "role":"Co-admin",
       "status":"online","language":"se"
     },
@@ -72,12 +73,32 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
       "status":"online","language":"se"
     },
       {
+      "name":"Dagim",
+      "role":"Usman",
+      "status":"online","language":"se"
+    },
+      {
+      "name":"Aicha  ",
+      "role":"admin",
+      "status":"online","language":"se"
+    },
+      {
+      "name":" Yonaathan",
+      "role":"admin",
+      "status":"online","language":"se"
+    },
+      {
+      "name":"Ephirem",
+      "role":"admin",
+      "status":"online","language":"se"
+    },
+      {
       "name":"Mohammed",
       "role":"Usman",
       "status":"online","language":"se"
     },
       {
-      "name":"Aicha Mohammed",
+      "name":"Aicha ",
       "role":"admin",
       "status":"online","language":"se"
     },
@@ -88,27 +109,7 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
     },
       {
       "name":"Monir Asqari",
-      "role":"admin",
-      "status":"online","language":"se"
-    },
-      {
-      "name":"Mohammed",
-      "role":"Usman",
-      "status":"online","language":"se"
-    },
-      {
-      "name":"Aicha Mohammed",
-      "role":"admin",
-      "status":"online","language":"se"
-    },
-      {
-      "name":"Monir Asqari",
-      "role":"admin",
-      "status":"online","language":"se"
-    },
-      {
-      "name":"Monir Asqari",
-      "role":"admin",
+      "role":null,
       "status":"online","language":"se"
     },
     
@@ -125,7 +126,11 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
         children: [
           buildTopBanner(),
           buildAdminChatArea(),
-          buildUsersExpandedWidget()
+          buildCustomeExpandable(),
+          Spacer(),
+          buildBottomWidget()
+
+          // buildUsersExpandedWidget()
         ],
       ),
     );
@@ -179,11 +184,16 @@ Expanded( flex: 2,child:     CircleAvatar(
       position: BadgePosition.topEnd(top: 0, end: 3),
       animationDuration: Duration(milliseconds: 300),
       animationType: BadgeAnimationType.slide,
+      showBadge: !message,
       badgeContent: Text(
        "3",
         style: TextStyle(color: Colors.white, fontSize: 10),
       ),
-      child: IconButton(icon:  Icon(Icons.message, color: Colors.white, size: 24), onPressed: () {}),
+      child: IconButton(icon:  Icon(Icons.message, color: message?Colors.white:Colors.black, size: 24), onPressed: () {
+        setState(() {
+          message=!message;
+        });
+      }),
     ),)
               ],
             ),
@@ -240,7 +250,54 @@ child: Icon(Icons.person, color: Colors.black,size: 40,),
     );
   
   }
+  buildCustomeExpandable(){
+    return !message ?  Column(children: [
+      GestureDetector(
+      
+      onTap: (){
+        print(message);
+        setState(() {
+          message= true;
+        });
+      },
+      child: Container(
+   
+  decoration: BoxDecoration(
+    color:Colors.green
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+ 
+    child: Row(
+  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+    children: [Icon(Icons.mic),Icon(Icons.keyboard_arrow_up),],
+  ),
+)),buildUsesChatArea() ],):Column(
+  children: [
+    GestureDetector(
+  
+    onTap: () => setState(() {
+          print(message);
+      message = false;
+    }),
+    child: Container(
+ 
+  decoration: BoxDecoration(
+    color:Colors.green
+  ),
+  width: width*0.98,
+  margin: EdgeInsets.only(left:5),
+ 
+    child: Row(
+  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+    children: [Row(children: [Icon(Icons.mic),Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_down),],
+  ),)
+),buildTextChatArea()
+  ],
+);
+  }
   buildUsersExpandedWidget(){
+   
     return       ExpandablePanel(
 theme: const ExpandableThemeData(
 headerAlignment:
@@ -259,10 +316,11 @@ collapsed:  Column(
   ),
   width: width*0.98,
   margin: EdgeInsets.only(left:5),
-  child:Row(
+ 
+    child: Row(
   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
     children: [Icon(Icons.mic),Icon(Icons.keyboard_arrow_up),],
-  )
+  ),
 ), 
             buildUsesChatArea()
          
@@ -278,10 +336,14 @@ collapsed:  Column(
   ),
   width: width*0.98,
   margin: EdgeInsets.only(left:5),
-  child:Row(
+  child:GestureDetector(
+    onTap: () => setState(() {
+      message = false;
+    }),
+    child: Row(
   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-    children: [Row(children: [Icon(Icons.mic),Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_up),],
-  )
+    children: [Row(children: [Icon(Icons.mic),Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_down),],
+  ),)
 ), // header when the widget is Expanded
 ),
  collapsed: GestureDetector(
@@ -290,14 +352,24 @@ collapsed:  Column(
    child: Center(child: Text("More", style: TextStyle(color: Colors.blue),),),
  )
  ),// body when the widget is Collapsed, I didnt need anything here. 
- expanded:Container(
+ expanded: buildTextChatArea()// body when the widget is Expanded
+ ) ;
+  }
+  buildTextChatArea(){
+    setState(() {
+      message= true;
+    });
+    return Container(
    child: Text("""ADMIN Monir Asqari: 19:44:33:  GUYS! Would it not be better to let the girls just do the work? 
 Fredrik Svensson: 19:45:37: What the hell?? Why 
 """ , style: TextStyle(color: Colors.white),),
- )/// body when the widget is Expanded
- ) ;
-  }
+ );
+ 
+ }
 buildUsesChatArea(){
+   setState(() {
+      message = false;
+    });
   return Container(
       margin: EdgeInsets.only(top: 15),
         width: width*0.9,
@@ -327,9 +399,27 @@ child: Icon(Icons.person, color: Colors.black,size: 40,),
     ),
     ) ,
     Text(e["name"],style: TextStyle(color: Colors.white),),
-    Text(e["role"],style: TextStyle(color: Colors.white),)
+ 
+    
+     Text(e["role"] ==null? "":e["role"],style: TextStyle(color: Colors.white),)
       ],
     ) ).toList();
+  }
+  buildBottomWidget(){
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      width: width,
+      height: height*0.054,
+      color: Colors.green,
+        child: Center(child: Container(
+          width: width*0.34,
+ height: height*0.034,
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(20)
+          ),
+          child: Center(child: Text("Leave",style: TextStyle(color: Colors.white, fontSize: 20),),)),),
+    );
   }
 
 } 
