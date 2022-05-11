@@ -22,95 +22,91 @@ class LiveBookCircleChatState extends State<LiveBookCircleChat>{
       {
       "name":"Monir Asqari",
       "role":"admin",
-      "status":"online","language":"se"
+      "status":"speaker","language":"se"
     },
       {
       "name":"Fredrik Sven",
       "role":"Co-admin",
-      "status":"online","language":"se"
+"status":"speaker","language":"se"
     },
       {
       "name":"Anders J",
       "role":"Co-admin",
-      "status":"online","language":"se"
+     "status":"speaker","language":"se"
     },
       {
       "name":"Mohammed",
       "role":"Usman",
-      "status":"online","language":"se"
+      "status":"speaker","language":"se"
     },
       {
       "name":"Eyobed",
       "role":"co-admin",
-      "status":"online","language":"se"
+      "status":"speaker","language":"se"
     },
       {
       "name":"Abdu  ",
       "role":"co-admin",
-      "status":"online","language":"se"
+      "status":"speaker","language":"se"
     },
-      {
-      "name":"Monir Asqari",
-      "role":"admin",
-      "status":"online","language":"se"
-    },
+ 
     
     ];
     List<Map<String, dynamic>> users =[
       {
       "name":"Natan",
-      "role":"admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Hiwot",
-      "role":"Co-admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Anders J",
-      "role":"Co-admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Dagim",
-      "role":"Usman",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Aicha  ",
-      "role":"admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":" Yonaathan",
-      "role":"admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Ephirem",
-      "role":"admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Mohammed",
       "role":"Usman",
-      "status":"online","language":"se"
+      "status":"listner","language":"se"
     },
       {
       "name":"Aicha ",
-      "role":"admin",
-      "status":"online","language":"se"
-    },
-      {
-      "name":"Monir Asqari",
-      "role":"admin",
-      "status":"online","language":"se"
+      "role":null,
+      "status":"listner","language":"se"
     },
       {
       "name":"Monir Asqari",
       "role":null,
-      "status":"online","language":"se"
+      "status":"listner","language":"se"
+    },
+      {
+      "name":"Monir Asqari",
+      "role":null,
+      "status":"listner","language":"se"
     },
     
     ];
@@ -200,35 +196,44 @@ Expanded( flex: 2,child:     CircleAvatar(
           );
   }
   buildAdminChatArea(){
-    return Container(
+    return Row(
+     
+      children: [
+      Expanded(
+        flex:3,
+        child:  CircleAvatar(
+    backgroundColor: Colors.transparent,
+    child: SizedBox(
+      width: 30,
+      height: 30,
+      child: ClipOval(
+
+        child:Image.asset('icons/flags/png/se.png',fit: BoxFit.fill, package: 'country_icons'),
+    )
+)
+
+
+                        )),
+      Expanded(
+        flex: 13,
+        child: Container(
       margin: EdgeInsets.only(top: 15),
-        width: width*0.9,
+        width: width*0.6,
         height: height*0.2,
     //    color: Colors.white,
         child: Wrap(
           runSpacing: 15,
           spacing: 15,
           children: buildListOfAdmin()),
-    )   ;
+    ))
+    ],)   ;
   }
   buildListOfAdmin(){
     return  admin.map((e) =>  Column(
       children: [
-         Badge(
-      position: BadgePosition.topEnd(top: -15, end: -15),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      badgeColor: Colors.transparent,
-      badgeContent:
-      
-      Icon(Icons.mic_off, color: Colors.red,size: 20,),
-      child:  CircleAvatar(
-      backgroundColor: Color.fromARGB(255, 166, 166, 166),
-child: Icon(Icons.person, color: Colors.black,size: 40,),
-    ),
-    ) ,
-    Text(e["name"],style: TextStyle(color: Colors.white),),
-    Text(e["role"],style: TextStyle(color: Colors.white),)
+        buildUserAvatar(e),
+    Text(e["name"],style: TextStyle(color: Colors.white, fontSize: 10),),
+    Text(e["role"],style: TextStyle(color: Colors.white, fontSize: 10),)
       ],
     ) ).toList();
   }
@@ -266,11 +271,28 @@ child: Icon(Icons.person, color: Colors.black,size: 40,),
     color:Colors.green
   ),
   width: width*0.98,
-  margin: EdgeInsets.only(left:5),
+  height: height*0.03,
+  padding: EdgeInsets.only(left:5),
  
     child: Row(
   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-    children: [Icon(Icons.mic),Icon(Icons.keyboard_arrow_up),],
+    children: [Row(children: [
+      
+      
+     
+      Badge(
+         position: BadgePosition.topEnd(top: -7, end: -12
+      ),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+       "3",
+        style: TextStyle(color: Colors.white, fontSize: 8),
+      ),
+      child: Icon(Icons.waving_hand_sharp,size:20)
+    ),
+    SizedBox(width:12,)
+      ,Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_up),],
   ),
 )),buildUsesChatArea() ],):Column(
   children: [
@@ -286,11 +308,28 @@ child: Icon(Icons.person, color: Colors.black,size: 40,),
     color:Colors.green
   ),
   width: width*0.98,
-  margin: EdgeInsets.only(left:5),
+   height: height*0.03,
+  padding: EdgeInsets.only(left:5),
  
     child: Row(
   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-    children: [Row(children: [Icon(Icons.mic),Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_down),],
+    children: [Row(children: [
+      
+      
+     
+            Badge(
+      position: BadgePosition.topEnd(top: -7, end: -12
+      ),
+      animationDuration: Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+       "3",
+        style: TextStyle(color: Colors.white, fontSize: 8),
+      ),
+      child: Icon(Icons.waving_hand_sharp,size:20)
+    ),
+    SizedBox(width:8,)
+      ,Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_up),],
   ),)
 ),buildTextChatArea()
   ],
@@ -310,7 +349,7 @@ header: Expandable(
 collapsed:  Column(
        children: <Widget>[
          Container(
-   
+   height: height*0.05,
   decoration: BoxDecoration(
     color:Colors.green
   ),
@@ -319,8 +358,8 @@ collapsed:  Column(
  
     child: Row(
   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-    children: [Icon(Icons.mic),Icon(Icons.keyboard_arrow_up),],
-  ),
+    children: [Row(children: [Icon(Icons.mic),Icon(Icons.hearing),Text("233")],),Icon(Icons.keyboard_arrow_down),],
+  )
 ), 
             buildUsesChatArea()
          
@@ -372,7 +411,7 @@ buildUsesChatArea(){
     });
   return Container(
       margin: EdgeInsets.only(top: 15),
-        width: width*0.9,
+        width: width*0.8,
     
     //    color: Colors.white,
         child: Wrap(
@@ -385,23 +424,11 @@ buildUsesChatArea(){
   buildListOfUsers(){
     return users.map((e) =>  Column(
       children: [
-         Badge(
-      position: BadgePosition.topEnd(top: -15, end: -15),
-      animationDuration: Duration(milliseconds: 300),
-      animationType: BadgeAnimationType.slide,
-      badgeColor: Colors.transparent,
-      badgeContent:
-      
-      Icon(Icons.mic_off, color: Colors.red,size: 20,),
-      child:  CircleAvatar(
-      backgroundColor: Color.fromARGB(255, 166, 166, 166),
-child: Icon(Icons.person, color: Colors.black,size: 40,),
-    ),
-    ) ,
-    Text(e["name"],style: TextStyle(color: Colors.white),),
+  buildUserAvatar(e),
+    Text(e["name"],style: TextStyle(color: Colors.white, fontSize: 10),),
  
     
-     Text(e["role"] ==null? "":e["role"],style: TextStyle(color: Colors.white),)
+     Text(e["role"] ==null? "":e["role"],style: TextStyle(color: Colors.white, fontSize: 10),)
       ],
     ) ).toList();
   }
@@ -420,6 +447,67 @@ child: Icon(Icons.person, color: Colors.black,size: 40,),
           ),
           child: Center(child: Text("Leave",style: TextStyle(color: Colors.white, fontSize: 20),),)),),
     );
+  }
+  buildUserAvatar(e){
+    return 
+            Stack(
+            //alignment: Alignment.center,
+            children: [
+                    Container(
+          width: width*0.1,
+          color: Colors.black,
+          height: height*0.05,),
+               Positioned(
+                 left: (e["role"]== "admin" || e["role"]== "Co-admin")? 3:7,
+                 bottom: (e["role"]== "admin" || e["role"]== "Co-admin")? 4:7,
+                 child: 
+                 CircleAvatar(
+    radius:  e["role"]== "admin"?20:e["role"]== "Co-admin"? 18:15,
+    backgroundColor: Colors.green,
+  child:  CircleAvatar(
+        radius: 15,
+      backgroundColor: Color.fromARGB(255, 166, 166, 166),
+child: Icon(Icons.person, color: Colors.black,size: 25,),
+    ),
+                 )
+                 ,),
+ Positioned(
+      left: 27,
+      child:    
+      e["status"]=="speaker"? 
+      Icon(Icons.mic_off, color: (e["role"]== "admin" || e["role"]== "Co-admin")?     Colors.red:Colors.white,size: 20,):Container(),),
+    Positioned(
+      left: 27,
+      top: 31,
+      child:  Container(
+        width: 9, height: 9,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          // borderRadius: BorderRadius.circular(100),
+        color: Colors.green),
+      ),),
+    Positioned(
+      left: -10,
+      top: 15,
+      child: CircleAvatar(
+    backgroundColor: Colors.transparent,
+    child: SizedBox(
+      width: 12,
+      height: 12,
+      child: ClipOval(
+
+        child:Image.asset('icons/flags/png/se.png',fit: BoxFit.fill, package: 'country_icons'),
+    )
+)
+
+
+                        ),),
+    Positioned(
+      left: 0,
+      top: 0,
+      child: Icon(Icons.waving_hand_sharp, color:(e["role"]== "admin" || e["role"]== "Co-admin")? Colors.white:Colors.red,size: 18,),),
+    
+            ]);
   }
 
 } 
